@@ -17,7 +17,11 @@ export const contactReducer = (state, action) => {
           (contact) => contact.id !== action.payload
         ),
       };
+    case "ADD_TO_PHONEBOOK":
+      return {
+        phonebook: [...state.phonebook, ...action.payload],
+      };
     default:
-      throw new Error();
+      return state;
   }
 };

@@ -1,26 +1,27 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Button, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { NavBar } from "src/components";
 import { ContactsContext } from "src/context/ContactContext";
+import { MAX_IMPORT_CONTACTS, ROUTES, THEME } from "src/helpers";
+import * as Yup from "yup";
 import {
   EditInputWrapper,
-  MainSeperator,
   MainWrapper,
   TextFieldStyled,
 } from "./ContactEntry.style";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { MAX_IMPORT_CONTACTS } from "src/helpers";
-
-import * as Yup from "yup";
 
 const Home = () => {
+  const navigate = useNavigate();
   // form validation rules
   const formValidationSchema = Yup.object().shape({
-    firstName: Yup.string().required("First Name is required"),
-    lastName: Yup.string().required("Last name is required"),
+    name: Yup.string()
+      .required("Name is required")
+      .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field "),
     phone: Yup.string()
       .required("Phone Number is required")
       .matches(
@@ -42,66 +43,62 @@ const Home = () => {
     dispatch({
       type: "ADD_CONTACT",
       payload: {
-        firstName: data.firstName,
-        lastName: data.lastName,
+        name: data.name,
         phone: data.phone,
       },
     });
     // reset({
-    //   firstName: "",
-    //   lastName: "",
+    //   name: "",
     //   phone: "",
     // });
   };
   const removeContact = (id: string) => {
     dispatch({ type: "REMOVE_CONTACT", payload: id });
   };
+  const addToPhonebook = () => {
+    console.log({ contacts });
+    // dispatch({ type: "ADD_TO_PHONEBOOK", payload: contacts });
+    navigate(ROUTES.LIST_CONTACTS);
+  };
   const contactMessage = () => {
     if (contacts.length <= 0) {
       return (
-        <Typography variant="h5" color={"GrayText"}>
+        <Typography variant="h6" color={THEME.PRIMARY}>
           You have no contacts
         </Typography>
       );
     } else if (contacts.length >= MAX_IMPORT_CONTACTS) {
       return (
-        <Typography variant="h5" color={"warning"}>
+        <Typography variant="h6" color={THEME.RED_MISSED_CALLS}>
           Maximum contacts reached
         </Typography>
       );
     } else {
       return (
         <Typography
-          variant="h5"
-          color={"primary"}
-        >{`You have ${contacts.length} contacts`}</Typography>
+          variant="h6"
+          color={THEME.SUCCESS_MAIN}
+        >{`${contacts.length} contact(s) added`}</Typography>
       );
     }
   };
   return (
     <MainWrapper>
-      <NavBar />
-      <MainSeperator />
+      <NavBar title={"Add Contacts"} />
       <Container maxWidth="md">
         <div style={{ marginBottom: "12px" }}>
           <form onSubmit={handleSubmit(_onSubmit)}>
             <EditInputWrapper>
               <TextFieldStyled
-                id="first_name"
-                label="First Name"
+                id="name"
+                label="Name"
                 variant="standard"
-                {...register("firstName")}
+                helperText="Only alphabets are allowed"
+                {...register("name")}
               />
-              {errors.firstName && <span>This field is required</span>}
-            </EditInputWrapper>
-            <EditInputWrapper>
-              <TextFieldStyled
-                id="last_name"
-                label="Last Name"
-                variant="standard"
-                {...register("lastName")}
-              />
-              {errors.lastName && <span>This field is required</span>}
+              {errors.name && (
+                <span style={{ color: "red" }}>This field is required</span>
+              )}
             </EditInputWrapper>
             <EditInputWrapper>
               <TextFieldStyled
@@ -126,42 +123,48 @@ const Home = () => {
               <Button variant="contained" type="submit">
                 Load Contact
               </Button>
-              <Button variant="contained">add contact(s) to phonebook</Button>
+
+              <Button variant="contained" onClick={addToPhonebook}>
+                add contact(s) to phonebook
+              </Button>
 
               {contactMessage()}
             </div>
           </form>
         </div>
-        {contacts.length ? (
-          <div style={{ height: "40vh", overflowY: "scroll" }}>
-            {contacts?.map((person, index) => (
-              <div
-                key={person.id}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  padding: "0px 10px",
-                  alignItems: "center",
-                  gap: "1rem",
-                  backgroundColor: index % 2 === 0 ? "#fafafa" : "#fff",
-                }}
-              >
-                <h6>{person.firstName}</h6>
-                <h6>{person.lastName}</h6>
-                <h6>{person.phone}</h6>
-                <DeleteForeverIcon
-                  color="primary"
-                  onClick={() => {
-                    removeContact(person.id);
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        ) : null}
+        {contacts.length ? renderContacts(contacts, removeContact) : null}
       </Container>
     </MainWrapper>
   );
 };
 
 export default Home;
+
+const renderContacts = (contacts: any, removeContact: (id: string) => void) => {
+  return (
+    <div style={{ height: "40vh", overflowY: "scroll" }}>
+      {contacts?.map((person, index) => (
+        <div
+          key={person.id}
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            padding: "0px 10px",
+            alignItems: "center",
+            gap: "1rem",
+            backgroundColor: index % 2 === 0 ? THEME.GREY_TABLE : THEME.WHITE,
+          }}
+        >
+          <h6>{person.name}</h6>
+          <h6>{person.phone}</h6>
+          <DeleteForeverIcon
+            color="primary"
+            onClick={() => {
+              removeContact(person.id);
+            }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+};

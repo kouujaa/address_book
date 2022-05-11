@@ -1,11 +1,11 @@
 import { AppBar, Box, Container, Toolbar } from "@mui/material";
 import { styled } from "@mui/system";
-import Theme from "src/assets/colors/theme";
+import { THEME } from "src/helpers";
 
 export const MainDivStyles = styled(AppBar)({
   width: 60,
   height: "100vh",
-  background: Theme.TEXT_PRIMARY,
+  background: THEME.TEXT_PRIMARY,
 });
 
 export const MainContainerStyles = styled(Container)({
@@ -36,15 +36,15 @@ export const MainBoxStyles = styled(Box)({
 export const NavLinkWrapper = styled(Box)({
   marginTop: 20,
   a: {
-    color: Theme.WHITE_25,
+    color: THEME.WHITE_25,
   },
 
   "a.active": {
     borderRadius: 4,
     width: 38,
     height: 38,
-    color: Theme.WHITE,
-    backgroundColor: Theme.PRIMARY,
+    color: THEME.WHITE,
+    backgroundColor: THEME.PRIMARY,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

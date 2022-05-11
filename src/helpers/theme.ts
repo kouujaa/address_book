@@ -1,4 +1,4 @@
-const theme = {
+export const THEME = {
   TEXT_PRIMARY: "#0F1222",
   PRIMARY: "#236192",
   WHITE: "#FFF",
@@ -9,8 +9,5 @@ const theme = {
   GREY: "#B0B7C3",
   GREY_TABLE: "#D3D5E4",
   RED_MISSED_CALLS: "#FF153C",
-  SUCCESS_MAIN: "#1BE9B6",
-  STAR_WARS_YELLOW: "#FFD700",
+  SUCCESS_MAIN: "#1def3b",
 };
-
-export default theme;

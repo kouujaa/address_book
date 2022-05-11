@@ -16,10 +16,3 @@ export const TextFieldStyled = styled(TextField)({
   display: "block",
   marginBottom: 5,
 });
-
-export const MainSeperator = styled("div")({
-  width: "100%",
-  height: "5vh",
-  backgroundColor: "#222222",
-  marginBottom: "10px",
-});

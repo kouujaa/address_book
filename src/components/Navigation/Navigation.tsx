@@ -1,4 +1,3 @@
-import Looks3Icon from "@mui/icons-material/Looks3";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import { Tooltip } from "@mui/material";
@@ -30,13 +29,6 @@ const Navigation = () => {
                 <NavLinkWrapper>
                   <NavLink to={ROUTES.LIST_CONTACTS}>
                     <LooksTwoIcon />
-                  </NavLink>
-                </NavLinkWrapper>
-              </Tooltip>
-              <Tooltip title="Fun Design" placement="right" arrow>
-                <NavLinkWrapper>
-                  <NavLink to={ROUTES.SEARCH_CONTACTS}>
-                    <Looks3Icon />
                   </NavLink>
                 </NavLinkWrapper>
               </Tooltip>

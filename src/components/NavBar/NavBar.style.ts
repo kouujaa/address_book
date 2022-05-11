@@ -13,3 +13,10 @@ export const AppBarWrapper = styled(AppBar)({
   paddingTop: "15px",
   paddingBottom: "15px",
 });
+
+export const MainSeperator = styled("div")({
+  width: "100%",
+  height: "5vh",
+  backgroundColor: "#222222",
+  marginBottom: "10px",
+});

@@ -3,19 +3,22 @@ import { contactReducer } from "src/reducer/contactReducer";
 
 // interface contacts {
 //   id: string;
-//   firstName: string;
-//   lastName: string;
+//   name: string;
 //   phone: string;
 // }
 export const ContactsContext = createContext({});
-export const initialState = { contacts: [] };
+export const initialState = { contacts: [], phonebook: [] };
 
 const ContactContextProvider = ({ children }) => {
-  const [{ contacts }, dispatch] = useReducer(contactReducer, initialState);
+  const [{ contacts, phonebook }, dispatch] = useReducer(
+    contactReducer,
+    initialState
+  );
   return (
     <ContactsContext.Provider
       value={{
         contacts,
+        phonebook,
         dispatch,
       }}
     >

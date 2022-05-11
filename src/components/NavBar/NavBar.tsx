@@ -1,8 +1,8 @@
 import { Typography } from "@mui/material";
 import Container from "@mui/material/Container";
-import { AppBarWrapper, NavWrapper } from "./NavBar.style";
+import { AppBarWrapper, NavWrapper, MainSeperator } from "./NavBar.style";
 
-const ButtonAppBar = () => {
+const AppBar = ({ title }) => {
   return (
     <NavWrapper>
       <AppBarWrapper position="static">
@@ -11,12 +11,13 @@ const ButtonAppBar = () => {
           component="div"
           sx={{ flexGrow: 1, padding: "1rem" }}
         >
-          PhoneBook
+          {title}
         </Typography>
         <Container maxWidth="md"></Container>
       </AppBarWrapper>
+      <MainSeperator />
     </NavWrapper>
   );
 };
 
-export default ButtonAppBar;
+export default AppBar;
