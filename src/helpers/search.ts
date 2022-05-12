@@ -15,7 +15,6 @@ export const fuzzySearch = (
   if (!searchTerm) {
     return dataSet;
   }
-  console.log({ searchTerm });
   const fuse = new Fuse(dataSet, {
     keys: fields,
   });
