@@ -62,7 +62,6 @@ const ContactEntry = () => {
     dispatch({ type: "REMOVE_CONTACT", payload: id });
   };
   const addToPhonebook = () => {
-    console.log({ contacts });
     dispatch({ type: "ADD_TO_PHONEBOOK", payload: contacts });
     navigate(ROUTES.LIST_CONTACTS);
   };
