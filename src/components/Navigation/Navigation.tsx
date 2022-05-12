@@ -18,14 +18,14 @@ const Navigation = () => {
         <MainContainerStyles maxWidth="xl">
           <MainToolbarStyles disableGutters>
             <MainBoxStyles>
-              <Tooltip title="Table Design" placement="right" arrow>
+              <Tooltip title="Add contact" placement="right" arrow>
                 <NavLinkWrapper>
                   <NavLink to={ROUTES.HOME}>
                     <LooksOneIcon color="inherit" style={{ fontSize: 20 }} />
                   </NavLink>
                 </NavLinkWrapper>
               </Tooltip>
-              <Tooltip title="Cards Design" placement="right" arrow>
+              <Tooltip title="View Phonebook" placement="right" arrow>
                 <NavLinkWrapper>
                   <NavLink to={ROUTES.LIST_CONTACTS}>
                     <LooksTwoIcon />
