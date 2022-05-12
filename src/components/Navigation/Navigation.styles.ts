@@ -5,13 +5,13 @@ import { THEME } from "src/helpers";
 export const MainDivStyles = styled(AppBar)({
   width: 60,
   height: "100vh",
-  background: THEME.TEXT_PRIMARY,
+  background: THEME.PRIMARY2,
 });
 
 export const MainContainerStyles = styled(Container)({
   height: "100vh",
-  paddingTop: 15,
-  paddingBottom: 15,
+  paddingTop: "1rem",
+  paddingBottom: "1rem",
 });
 
 export const MainToolbarStyles = styled(Toolbar)({
@@ -27,16 +27,16 @@ export const MainBoxStyles = styled(Box)({
   alignItems: "center",
 
   "& .logo": {
-    marginBottom: "10px",
-    width: "20px",
-    height: "18px",
+    marginBottom: "1rem",
+    width: "1rem",
+    height: "1rem",
   },
 });
 
 export const NavLinkWrapper = styled(Box)({
   marginTop: 20,
   a: {
-    color: THEME.WHITE_25,
+    color: THEME.WHITE,
   },
 
   "a.active": {

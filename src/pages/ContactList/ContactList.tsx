@@ -4,12 +4,12 @@ import { useContext, useMemo, useState } from "react";
 import { NavBar, SearchBar } from "src/components";
 import { ContactsContext } from "src/context/ContactContext";
 import { fuzzySearch } from "src/helpers";
-import { MainWrapper } from "./ContactList.style";
+import { MainWrapper, TableWrapper } from "./ContactList.style";
 
 const ContactList = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  //@ts-ignore
-  const { contacts } = useContext(ContactsContext);
+  const { phonebook } = useContext(ContactsContext);
+
   const columns: GridEnrichedColDef[] = useMemo(
     () => [
       {
@@ -29,19 +29,25 @@ const ContactList = () => {
     ],
     []
   );
-  const rows = contacts?.map((contact) => {
-    return {
-      id: contact.id,
-      name: contact.name,
-      phone: contact.phone,
-    };
-  });
+  const rows = phonebook
+    ?.map((contact) => {
+      return {
+        id: contact.id,
+        name: contact.name,
+        phone: contact.phone,
+      };
+    })
+    .sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+
   const filteredRows = useMemo(() => {
     if (searchTerm === "") {
       return rows;
     }
     return fuzzySearch(["name", "phone"], rows, searchTerm);
   }, [rows, searchTerm]);
+
   return (
     <MainWrapper>
       <NavBar title={"PhoneBook"} />
@@ -52,7 +58,7 @@ const ContactList = () => {
             setSearchTerm(e);
           }}
         />
-        <div style={{ height: "60vh" }}>
+        <TableWrapper>
           <DataGrid
             rows={filteredRows}
             columns={columns}
@@ -61,7 +67,7 @@ const ContactList = () => {
             disableSelectionOnClick={true}
             rowsPerPageOptions={[0]}
           />
-        </div>
+        </TableWrapper>
       </Container>
     </MainWrapper>
   );

@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Button, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import { useContext } from "react";
@@ -10,12 +9,20 @@ import { ContactsContext } from "src/context/ContactContext";
 import { MAX_IMPORT_CONTACTS, ROUTES, THEME } from "src/helpers";
 import * as Yup from "yup";
 import {
+  ActionWrapper,
   EditInputWrapper,
   MainWrapper,
   TextFieldStyled,
+  FormWrapper,
 } from "./ContactEntry.style";
+import Contacts from "./partials/Contacts";
 
-const Home = () => {
+type FormData = {
+  name: string;
+  phone: string;
+};
+
+const ContactEntry = () => {
   const navigate = useNavigate();
   // form validation rules
   const formValidationSchema = Yup.object().shape({
@@ -30,14 +37,13 @@ const Home = () => {
       ),
   });
   const formOptions = { resolver: yupResolver(formValidationSchema) };
-  //@ts-ignore
   const { contacts, dispatch } = useContext(ContactsContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm(formOptions);
+  } = useForm<FormData>(formOptions);
 
   const _onSubmit = (data) => {
     dispatch({
@@ -47,17 +53,17 @@ const Home = () => {
         phone: data.phone,
       },
     });
-    // reset({
-    //   name: "",
-    //   phone: "",
-    // });
+    reset({
+      name: "",
+      phone: "",
+    });
   };
   const removeContact = (id: string) => {
     dispatch({ type: "REMOVE_CONTACT", payload: id });
   };
   const addToPhonebook = () => {
     console.log({ contacts });
-    // dispatch({ type: "ADD_TO_PHONEBOOK", payload: contacts });
+    dispatch({ type: "ADD_TO_PHONEBOOK", payload: contacts });
     navigate(ROUTES.LIST_CONTACTS);
   };
   const contactMessage = () => {
@@ -69,7 +75,7 @@ const Home = () => {
       );
     } else if (contacts.length >= MAX_IMPORT_CONTACTS) {
       return (
-        <Typography variant="h6" color={THEME.RED_MISSED_CALLS}>
+        <Typography variant="h6" color={THEME.RED}>
           Maximum contacts reached
         </Typography>
       );
@@ -86,7 +92,7 @@ const Home = () => {
     <MainWrapper>
       <NavBar title={"Add Contacts"} />
       <Container maxWidth="md">
-        <div style={{ marginBottom: "12px" }}>
+        <FormWrapper>
           <form onSubmit={handleSubmit(_onSubmit)}>
             <EditInputWrapper>
               <TextFieldStyled
@@ -112,14 +118,7 @@ const Home = () => {
                 <span style={{ color: "red" }}>Enter Valid Number</span>
               )}
             </EditInputWrapper>
-            <div
-              style={{
-                display: "flex",
-                gap: "1rem",
-                alignItems: "center",
-                marginTop: "12px",
-              }}
-            >
+            <ActionWrapper>
               <Button variant="contained" type="submit">
                 Load Contact
               </Button>
@@ -129,42 +128,15 @@ const Home = () => {
               </Button>
 
               {contactMessage()}
-            </div>
+            </ActionWrapper>
           </form>
-        </div>
-        {contacts.length ? renderContacts(contacts, removeContact) : null}
+        </FormWrapper>
+        {contacts.length ? (
+          <Contacts contacts={contacts} removeContact={removeContact} />
+        ) : null}
       </Container>
     </MainWrapper>
   );
 };
 
-export default Home;
-
-const renderContacts = (contacts: any, removeContact: (id: string) => void) => {
-  return (
-    <div style={{ height: "40vh", overflowY: "scroll" }}>
-      {contacts?.map((person, index) => (
-        <div
-          key={person.id}
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            padding: "0px 10px",
-            alignItems: "center",
-            gap: "1rem",
-            backgroundColor: index % 2 === 0 ? THEME.GREY_TABLE : THEME.WHITE,
-          }}
-        >
-          <h6>{person.name}</h6>
-          <h6>{person.phone}</h6>
-          <DeleteForeverIcon
-            color="primary"
-            onClick={() => {
-              removeContact(person.id);
-            }}
-          />
-        </div>
-      ))}
-    </div>
-  );
-};
+export default ContactEntry;

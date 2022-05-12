@@ -1,7 +1,7 @@
-import { styled } from '@mui/system'
+import { styled } from "@mui/system";
 
-export const SearchWrapper = styled('div')({
-  marginTop: 9,
-  marginBottom: 12,
-  width: '100%',
-})
+export const SearchWrapper = styled("div")({
+  marginTop: "1rem",
+  marginBottom: "1rem",
+  width: "100%",
+});
